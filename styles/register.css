@@ -29,18 +29,25 @@ body {
     height: 100%;
 }
 
-.login-labels {
+
+.register-labels {
 
     width: 50%;
     margin: auto;
     display: table;
-    padding-bottom: 20px;
-
 }
 
-.username-label,
-.password-label {
+.role{
+    width: 50%;
+    margin-bottom: 10px;
+}
+
+.labels{
     float: left;
+}
+
+.input {
+    margin-bottom: 5px
 }
 
 .logo img {

@@ -1,4 +1,7 @@
 # SIM2024Q4-ThePortLions
 
-database creation:
+Instructions:
 
+-Run user_management.sql for database creation.
+
+-Clone repo into htdocs if using xampp.
