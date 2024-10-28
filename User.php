@@ -24,26 +24,48 @@ class User {
         $this->dob = $dob;
     }
 
-    // Save method for new user creation
+    // Save a new user
     public function save($pdo) {
         $stmt = $pdo->prepare("INSERT INTO users (account_type, profile_id, username, phone_number, email, password, status, dob) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         return $stmt->execute([$this->account_type, $this->profile_id, $this->username, $this->phone_number, $this->email, $this->password, $this->status, $this->dob]);
     }
 
-    // Update method for existing users
+    // Update an existing user
     public function update($pdo) {
         $stmt = $pdo->prepare("UPDATE users SET account_type = ?, profile_id = ?, username = ?, phone_number = ?, email = ?, status = ?, dob = ? WHERE id = ?");
         return $stmt->execute([$this->account_type, $this->profile_id, $this->username, $this->phone_number, $this->email, $this->status, $this->dob, $this->id]);
     }
 
-    // Static method to find a user by ID
-    public static function find($pdo, $id) {
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    // Find user by ID
+    public static function findById($pdo, $id) {
+        $stmt = $pdo->prepare("SELECT id, username, email, account_type, profile_id, phone_number, status, dob FROM users WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-	
+
+    // Find user by username
+    public static function findByUsername($pdo, $username) {
+        $stmt = $pdo->prepare("SELECT id, username, email, account_type, profile_id, phone_number, status, dob FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Find users by any field
+    public static function findByField($pdo, $field, $value) {
+        $stmt = $pdo->prepare("SELECT id, username, email, account_type, profile_id, phone_number, status, dob FROM users WHERE $field = ?");
+        $stmt->execute([$value]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Get all users
+    public static function getAll($pdo) {
+        $stmt = $pdo->query("SELECT id, username, email, account_type, profile_id, phone_number, status, dob FROM users");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Suspend a user
+    public function suspend($pdo) {
+        $stmt = $pdo->prepare("UPDATE users SET status = 'suspended' WHERE id = ?");
+        return $stmt->execute([$this->id]);
+    }
 }
-
-
-?>
