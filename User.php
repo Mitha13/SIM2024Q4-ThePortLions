@@ -38,28 +38,28 @@ class User {
 
     // Find user by ID
     public static function findById($pdo, $id) {
-        $stmt = $pdo->prepare("SELECT id, username, email, account_type, profile_id, phone_number, status, dob FROM users WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT id, username, email, account_type, profile_id, phone_number, password, status, dob FROM users WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Find user by username
     public static function findByUsername($pdo, $username) {
-        $stmt = $pdo->prepare("SELECT id, username, email, account_type, profile_id, phone_number, status, dob FROM users WHERE username = ?");
+        $stmt = $pdo->prepare("SELECT id, username, email, account_type, profile_id, phone_number, password, status, dob FROM users WHERE username = ?");
         $stmt->execute([$username]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Find users by any field
     public static function findByField($pdo, $field, $value) {
-        $stmt = $pdo->prepare("SELECT id, username, email, account_type, profile_id, phone_number, status, dob FROM users WHERE $field = ?");
+        $stmt = $pdo->prepare("SELECT id, username, email, account_type, profile_id, phone_number, password, status, dob FROM users WHERE $field = ?");
         $stmt->execute([$value]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Get all users
     public static function getAll($pdo) {
-        $stmt = $pdo->query("SELECT id, username, email, account_type, profile_id, phone_number, status, dob FROM users");
+        $stmt = $pdo->query("SELECT id, username, email, account_type, profile_id, phone_number, password, status, dob FROM users");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
