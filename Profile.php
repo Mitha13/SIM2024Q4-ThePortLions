@@ -1,13 +1,18 @@
 <?php
 session_start();
-include 'UserProfileController.php'; // Ensure this includes your profile handling logic
+include 'UserProfileController.php'; // Ensure this includes all your controller class files
 
 // Ensure admin is logged in
 if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 1) {
     die("Access denied.");
 }
 
-$controller = new UserProfileController();
+// Instantiate controller classes
+$createController = new CreateUserProfileController();
+$getAllController = new GetAllUserProfilesController();
+$updateController = new UpdateUserProfileController();
+$suspendController = new SuspendUserProfileController();
+$searchController = new SearchUserProfilesController();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Handle form submissions based on the action requested
@@ -16,35 +21,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             case 'create':
                 // Create a new profile
                 $userRole = $_POST['UserRole'];
-                $Description = $_POST['Description'];
-                $controller->createProfile($userRole, $Description);
+                $description = $_POST['Description'];
+                $createController->execute($userRole, $description);
                 break;
 
             case 'update':
                 // Update an existing profile
                 $id = $_POST['id'];
                 $userRole = $_POST['UserRole'];
-                $Description = $_POST['Description'];
-                $controller->updateProfile($id, $userRole, $Description);
+                $description = $_POST['Description'];
+                $updateController->execute($id, $userRole, $description);
                 break;
 
             case 'suspend':
                 // Suspend a profile
                 $id = $_POST['id'];
-                $controller->suspendProfile($id);
+                $suspendController->execute($id);
                 break;
 
             case 'search':
                 // Search for profiles
                 $userRole = $_POST['UserRole'];
-                $profiles = $controller->searchProfiles($userRole);
+                $profiles = $searchController->execute($userRole);
                 break;
         }
     }
 }
 
 // Fetch all profiles if not searching
-$profiles = isset($profiles) ? $profiles : $controller->getAllUserProfiles();
+$profiles = isset($profiles) ? $profiles : $getAllController->execute();
 ?>
 
 <!DOCTYPE html>
@@ -197,7 +202,6 @@ $profiles = isset($profiles) ? $profiles : $controller->getAllUserProfiles();
         </tr>
         <?php endforeach; ?>
     </table>
-	<p>Back to dashboard <a href="dashboard.php">Home</a></p>
-
+    <p>Back to dashboard <a href="dashboard.php">Home</a></p>
 </body>
 </html>
