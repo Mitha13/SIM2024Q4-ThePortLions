@@ -1,26 +1,49 @@
 <?php
 // UserProfile.php (Entity)
-class UserProfile {
-    private $id;
-    private $userRole;
-    private $description;
-
-    public function __construct($id, $userRole, $description) {
-        $this->id = $id;
-        $this->userRole = $userRole;
-        $this->description = $description;
+class CreateUserProfileEntity {
+    public static function create($pdo, $userRole, $description) {
+        $stmt = $pdo->prepare("INSERT INTO UserProfile (UserRole, Description) VALUES (?, ?)");
+        $stmt->execute([$userRole, $description]);
+        return "User Profile created successfully!";
     }
+}
 
-    public function getId() {
-        return $this->id;
+class GetAllUserProfilesEntity {
+    public static function getAll($pdo) {
+        $stmt = $pdo->query("SELECT * FROM UserProfile");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+}
 
-    public function getUserRole() {
-        return $this->userRole;
+class GetUserProfileByIdEntity {
+    public static function getById($pdo, $id) {
+        $stmt = $pdo->prepare("SELECT * FROM UserProfile WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+}
 
-    public function getDescription() {
-        return $this->description;
+class UpdateUserProfileEntity {
+    public static function update($pdo, $id, $userRole, $description) {
+        $stmt = $pdo->prepare("UPDATE UserProfile SET UserRole = ?, Description = ? WHERE id = ?");
+        $stmt->execute([$userRole, $description, $id]);
+        return "User Profile updated successfully!";
+    }
+}
+
+class SuspendUserProfileEntity {
+    public static function suspend($pdo, $id) {
+        $stmt = $pdo->prepare("UPDATE UserProfile SET status = 'suspended' WHERE id = ?");
+        $stmt->execute([$id]);
+        return "User Profile suspended!";
+    }
+}
+
+class SearchUserProfilesEntity {
+    public static function searchByRole($pdo, $userRole) {
+        $stmt = $pdo->prepare("SELECT * FROM UserProfile WHERE UserRole LIKE ?");
+        $stmt->execute(["%$userRole%"]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>
