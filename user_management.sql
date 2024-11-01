@@ -30,6 +30,10 @@ VALUES
     ('Seller', 'Can list and manage car sales'),
     ('Used Car Agent', 'Manages car listings and interacts with Buyers or Sellers');
 
+-- Additional SQL stmts for suspending status user profiles.
+ALTER TABLE UserProfile ADD COLUMN status VARCHAR(50);
+ALTER TABLE UserProfile MODIFY COLUMN status VARCHAR(50) DEFAULT 'active';
+
 -- Create the sessions table (if needed for session management)
 CREATE TABLE sessions (
     id INT AUTO_INCREMENT PRIMARY KEY,
