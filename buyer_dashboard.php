@@ -2,8 +2,8 @@
 session_start();
 include 'UserController.php';
 
-// Ensure Admin type is logged in
-if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 1) {
+// Ensure Buyer type is logged in
+if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 2) {
     die("Access denied.");
 }
 ?>
@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 1) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Buyer Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,16 +65,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 1) {
 <body>
 
 <div class="dashboard-container">
-    <h1>Admin Dashboard</h1>
+    <h1>Buyer Dashboard</h1>
 	<?php
-		echo "<p><center>Welcome Admin, ". $_SESSION['username']. " </center></p>";
+		echo "<p><center>Welcome Buyer, ". $_SESSION['username']. " </center></p>";
 	?>
 
     <div class="action-buttons">
-        <!-- Link to user account management (current functionality) -->
-        <a href="admin_dashboard.php?action=manage_accounts">Modify User Accounts</a>
-        <!-- Link to user profile management -->
-        <a href="Profile.php?action=manage_profiles">Modify User Profiles</a>
+        <!-- As buyer, roles are only to view current car listings and view their shortlist -->
+        <a href="buyer_viewCar.php?action=manage_profiles">View Car Listings</a>
+        <a href="buyer_viewShortlist.php?action=manage_accounts">View Your Shortlist</a>
     </div>
 
     <div class="logout">

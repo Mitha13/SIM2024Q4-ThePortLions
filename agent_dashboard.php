@@ -2,8 +2,8 @@
 session_start();
 include 'UserController.php';
 
-// Ensure Admin type is logged in
-if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 1) {
+// Ensure used car agent type is logged in
+if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 4) {
     die("Access denied.");
 }
 ?>
@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 1) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Used Car Agent Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,16 +65,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 1) {
 <body>
 
 <div class="dashboard-container">
-    <h1>Admin Dashboard</h1>
+    <h1>Used Car Agent Dashboard</h1>
 	<?php
-		echo "<p><center>Welcome Admin, ". $_SESSION['username']. " </center></p>";
+		echo "<p><center>Welcome Used Car Agent, ". $_SESSION['username']. " </center></p>";
 	?>
 
     <div class="action-buttons">
-        <!-- Link to user account management (current functionality) -->
-        <a href="admin_dashboard.php?action=manage_accounts">Modify User Accounts</a>
-        <!-- Link to user profile management -->
-        <a href="Profile.php?action=manage_profiles">Modify User Profiles</a>
+        <!-- As Used car agent, roles are only allowed to add new car and view current car listing -->
+        <a href="addCar.php?action=manage_accounts">Add New Car</a>
+        <a href="agent_viewCar.php?action=manage_profiles">View Car Listings</a>
     </div>
 
     <div class="logout">

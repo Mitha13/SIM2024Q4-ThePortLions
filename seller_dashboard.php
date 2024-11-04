@@ -2,8 +2,8 @@
 session_start();
 include 'UserController.php';
 
-// Ensure Admin type is logged in
-if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 1) {
+// Ensure Seller type is logged in
+if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 3) {
     die("Access denied.");
 }
 ?>
@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 1) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Seller Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,16 +65,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 1) {
 <body>
 
 <div class="dashboard-container">
-    <h1>Admin Dashboard</h1>
+    <h1>Seller Dashboard</h1>
 	<?php
-		echo "<p><center>Welcome Admin, ". $_SESSION['username']. " </center></p>";
+		echo "<p><center>Welcome Seller, ". $_SESSION['username']. " </center></p>";
 	?>
 
     <div class="action-buttons">
-        <!-- Link to user account management (current functionality) -->
-        <a href="admin_dashboard.php?action=manage_accounts">Modify User Accounts</a>
-        <!-- Link to user profile management -->
-        <a href="Profile.php?action=manage_profiles">Modify User Profiles</a>
+        <!-- As seller, roles are only to view buyer who shortlisted their car, rest tbc -->
+        <!-- <a href="addCar.php?action=manage_accounts">Add New Car</a> -->
+        <a href="view_buyer_shortlist.php?action=manage_profiles">View Buyer Interest</a>
     </div>
 
     <div class="logout">

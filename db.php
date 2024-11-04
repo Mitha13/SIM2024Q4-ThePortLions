@@ -2,7 +2,7 @@
 // db.php
 $host = 'localhost';
 $db = 'user_management';
-$user = ''; // Replace with your database username
+$user = 'root'; // Replace with your database username
 $pass = ''; // Replace with your database password
 
 try {
