@@ -12,15 +12,16 @@ class Review {
             // Create a new PDO instance for the server connection
             $this->pdo = new PDO("mysql:host=$host", $user, $pass);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+			$this->pdo->exec("USE {$this->dbName}");
+			
             // Check if the database exists, if not, create it
-            $this->createDatabaseIfNotExists();
+            // $this->createDatabaseIfNotExists();
         } catch (PDOException $e) {
             die("Database connection failed: " . $e->getMessage());
         }
     }
 
-    // Method to create the database if it does not exist
+    /* // Method to create the database if it does not exist
     private function createDatabaseIfNotExists() {
         try {
             // Create the database if it doesn't exist
@@ -51,7 +52,7 @@ class Review {
         } catch (PDOException $e) {
             echo "Error creating table: " . $e->getMessage();
         }
-    }
+    } */
 
     public function save($userId, $username, $carId, $comment, $rating) {
 		try {

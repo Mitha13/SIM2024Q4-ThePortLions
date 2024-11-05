@@ -13,16 +13,17 @@ class Car {
             // Create a new PDO instance for the server connection
             $this->pdo = new PDO("mysql:host=$host", $user, $pass);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->pdo->exec("USE {$this->pdoName}");
 
             // Check if the database exists, if not, create it
-            $this->createDatabaseIfNotExists();
+            // $this->createDatabaseIfNotExists();
         } catch (PDOException $e) {
             die("Database connection failed: " . $e->getMessage());
         }
     }
 
     // Method to create the database if it does not exist
-    private function createDatabaseIfNotExists() {
+    /* private function createDatabaseIfNotExists() {
         try {
             // Create the database if it doesn't exist
             $this->pdo->exec("CREATE DATABASE IF NOT EXISTS {$this->pdoName}");
@@ -54,7 +55,7 @@ class Car {
         } catch (PDOException $e) {
             echo "Error creating table: " . $e->getMessage();
         }
-    }
+    } */
 
     // Method to fetch all cars from the database
     public function fetchAllCars() {
