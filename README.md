@@ -1,11 +1,11 @@
 # SIM2024Q4-ThePortLions
 
 Instructions:
-  - Run user_management.sql for database creation.
+  - Run user_management.sql and car_management for database creation.
   - Clone repo into htdocs if using xampp.
 
 UPDATE 05-11-24:
-  - All databases and tables have to be manually created
+  - All databases and tables have to be manually created by sql script
 
 UPDATE 04-11-24:
   - Merged user management with car management
