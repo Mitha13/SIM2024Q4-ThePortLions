@@ -13,3 +13,6 @@ UPDATE 06-11-24:
   - Agent can now choose any existing sellers during adding of cars
   - Seller should now see their own respective list of interested buyers
   - Buyers should now only see their own respective shortlist and reviews
+
+To be added:
+  - Each user dashboard should have allow them to edit their profile
