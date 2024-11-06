@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone_number = $_POST['phone_number'];
     $email = $_POST['email'];
 	$dob = $_POST['dob'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $password = $_POST['password'];
 
     // Use the CreateUser class to handle user creation
     $createUser = new CreateUser();
