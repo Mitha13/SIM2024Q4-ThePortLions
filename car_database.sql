@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `cars` (
   `description` text NOT NULL,
   `mileage` int NOT NULL,
   `color` varchar(50) NOT NULL,
+  `seller` varchar(100) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 )

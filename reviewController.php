@@ -12,3 +12,17 @@ class ReviewController {
         return $this->review->save($userId, $username, $carId, $comment, $rating);
     }
 }
+
+class GetReviews {
+	private $review;
+
+    public function __construct() {
+        $this->review = new Review();
+    }
+	
+	public function getReviews($username) {
+        return $this->review->getReviews($username);
+    }
+}
+
+?>

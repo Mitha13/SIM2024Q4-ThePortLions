@@ -120,6 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if (isset($error)): ?>
             <p class="error"><?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>
+		Current Seller: <?php echo htmlspecialchars($car['seller']); ?>
 
         <form method="post" action="">
             <input type="text" name="brand" placeholder="Brand" value="<?php echo htmlspecialchars($car['brand']); ?>" required>
@@ -129,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea name="description" placeholder="Description" required><?php echo htmlspecialchars($car['description']); ?></textarea>
             <input type="number" name="mileage" placeholder="Mileage" value="<?php echo htmlspecialchars($car['mileage']); ?>" required>
             <input type="text" name="color" placeholder="Color" value="<?php echo htmlspecialchars($car['color']); ?>" required>
-
+			
             <button type="submit">Update Car</button>
         </form>
     </div>

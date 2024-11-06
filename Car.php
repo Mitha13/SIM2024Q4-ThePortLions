@@ -15,47 +15,10 @@ class Car {
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->pdo->exec("USE {$this->pdoName}");
 
-            // Check if the database exists, if not, create it
-            // $this->createDatabaseIfNotExists();
         } catch (PDOException $e) {
             die("Database connection failed: " . $e->getMessage());
         }
     }
-
-    // Method to create the database if it does not exist
-    /* private function createDatabaseIfNotExists() {
-        try {
-            // Create the database if it doesn't exist
-            $this->pdo->exec("CREATE DATABASE IF NOT EXISTS {$this->pdoName}");
-            // Switch to the new database
-            $this->pdo->exec("USE {$this->pdoName}");
-            // Create the table if it doesn't exist
-            $this->createTableIfNotExists();
-        } catch (PDOException $e) {
-            echo "Error creating database: " . $e->getMessage();
-        }
-    }
-
-    // Method to create the cars table if it does not exist
-    private function createTableIfNotExists() {
-        $query = "CREATE TABLE IF NOT EXISTS cars (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            brand VARCHAR(100) NOT NULL,
-            model VARCHAR(100) NOT NULL,
-            year INT NOT NULL,
-            price DECIMAL(10, 2) NOT NULL,
-            description TEXT NOT NULL,
-            mileage INT NOT NULL,
-            color VARCHAR(50) NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )";
-
-        try {
-            $this->pdo->exec($query);
-        } catch (PDOException $e) {
-            echo "Error creating table: " . $e->getMessage();
-        }
-    } */
 
     // Method to fetch all cars from the database
     public function fetchAllCars() {
@@ -71,10 +34,10 @@ class Car {
     }
 
     // Method to insert a new car into the database
-    public function insertCar($brand, $model, $year, $price, $description, $mileage, $color) {
+    public function insertCar($brand, $model, $year, $price, $description, $mileage, $color, $seller) {
         try {
-            $query = "INSERT INTO cars (brand, model, year, price, description, mileage, color)
-                      VALUES (:brand, :model, :year, :price, :description, :mileage, :color)";
+            $query = "INSERT INTO cars (brand, model, year, price, description, mileage, color, seller)
+                      VALUES (:brand, :model, :year, :price, :description, :mileage, :color, :seller)";
             $stmt = $this->pdo->prepare($query);
 
             // Bind parameters
@@ -85,6 +48,7 @@ class Car {
             $stmt->bindParam(':description', $description);
             $stmt->bindParam(':mileage', $mileage);
             $stmt->bindParam(':color', $color);
+			$stmt->bindParam(':seller', $seller);
 
             return $stmt->execute();
         } catch (PDOException $e) {

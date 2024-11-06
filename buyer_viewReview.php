@@ -1,13 +1,19 @@
 <?php
 session_start();
+// Ensure Buyer type is logged in
+if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 2) {
+    die("Access denied.");
+}
+
 // viewShortlist.php
 require_once 'ShortlistController.php';
-require_once 'CarController.php'; // Include CarController to fetch car details
+require_once 'reviewController.php';
+require_once 'CarController.php';
 
 // Create instances
 $GetShortlistedCarsController = new GetShortlistedCars();
-$GetShortlistedCarsBySellerController = new GetShortlistedCarsBySeller();
-$shortlistedCars = $GetShortlistedCarsBySellerController->getShortlistedCarsBySeller($_SESSION['username']);
+$GetReviewController = new GetReviews();
+$getUserReviews = $GetReviewController->getReviews($_SESSION['username']); // Fetch reviews for respective user
 
 ?>
 
@@ -16,7 +22,7 @@ $shortlistedCars = $GetShortlistedCarsBySellerController->getShortlistedCarsBySe
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Buyer Interests</title>
+    <title>View Shortlist</title>
     <style>
         /* Basic styling for navigation */
         .navbar {
@@ -91,42 +97,39 @@ $shortlistedCars = $GetShortlistedCarsBySellerController->getShortlistedCarsBySe
 
     <!-- Navigation bar with links -->
     <div class="navbar">
-        <a href="seller_dashboard.php">Dashboard</a>
-        <a href="view_buyer_shortlist.php">View Buyer Interests</a>
+        <a href="buyer_dashboard.php">Dashboard</a>
+        <a href="buyer_viewCar.php">View Cars</a>
+        <a href="buyer_viewShortlist.php">View Shortlist</a>
+		<a href="buyer_viewReview.php">Your Reviews</a>
+		<a href="loanCalculator.php">Loan Calculator</a>
     </div>
 
     <div class="container">
-        <h1>List of Interested Buyers</h1>
+        <h1>Your Reviews</h1>
 
-        <?php if (count($shortlistedCars) > 0): ?>
+        <?php if (count($getUserReviews) > 0): ?>
             <table>
                 <thead>
                     <tr>
-						<th>User ID</th>
-						<th>Username</th>
                         <th>Car ID</th>
-						<th>Seller</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Price</th>
+                        <th>Comment</th>
+                        <th>Rating</th>
+						<th>Added On</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($shortlistedCars as $car): ?>
+                    <?php foreach ($getUserReviews as $review): ?>
                         <tr>
-							<td><?php echo htmlspecialchars($car['user_id']); ?></td>
-							<td><?php echo htmlspecialchars($car['username']); ?></td>
-                            <td><?php echo htmlspecialchars($car['car_id']); ?></td>
-							<td><?php echo htmlspecialchars($car['seller']); ?></td>
-                            <td><?php echo htmlspecialchars($car['brand']); ?></td>
-                            <td><?php echo htmlspecialchars($car['model']); ?></td>
-                            <td><?php echo htmlspecialchars($car['price']); ?></td>
+                            <td><?php echo htmlspecialchars($review['car_id']); ?></td>
+                            <td><?php echo htmlspecialchars($review['comment']); ?></td>
+                            <td><?php echo htmlspecialchars($review['rating']); ?></td>
+							<td><?php echo htmlspecialchars($review['created_at']); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         <?php else: ?>
-            <p>No cars in your shortlist.</p>
+            <p>You have not left any reviews.</p>
         <?php endif; ?>
     </div>
 

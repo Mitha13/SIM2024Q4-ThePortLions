@@ -202,6 +202,6 @@ $profiles = isset($profiles) ? $profiles : $getAllController->execute();
         </tr>
         <?php endforeach; ?>
     </table>
-    <p>Back to dashboard <a href="admin_dashboard.php">Home</a></p>
+    <p>Back to dashboard <a href="dashboard.php">Home</a></p>
 </body>
 </html>

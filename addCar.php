@@ -18,9 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST['description'];
     $mileage = $_POST['mileage'];
     $color = $_POST['color'];
+	$seller = $_POST['seller'];
 
     // Register the car
-    if ($RegisterCarController->registerCar($brand, $model, $year, $price, $description, $mileage, $color)) {
+    if ($RegisterCarController->registerCar($brand, $model, $year, $price, $description, $mileage, $color, $seller)) {
         $message = "Car added successfully!";
     } else {
         $message = "Failed to add car.";
@@ -99,6 +100,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <label for="color">Color:</label>
             <input type="text" name="color" required>
+			
+			<label for="seller">Seller:</label>
+			<select name="seller" required>
+				<option value="">Select a Seller</option>
+				<?php
+				// Fetch sellers from the database and populate the dropdown
+				$conn = new mysqli('localhost', 'root', '', 'user_management'); // Replace with actual DB credentials
+				if ($conn->connect_error) {
+					die("Connection failed: " . $conn->connect_error);
+				}
+
+				// Query to get all sellers from the user_management table
+				$sql = "SELECT username FROM users WHERE account_type = 3"; // Assuming 'sellers' is the table and it has 'id' and 'username' columns
+				$result = $conn->query($sql);
+
+				// Populate the dropdown with the sellers
+				if ($result->num_rows > 0) {
+					while ($row = $result->fetch_assoc()) {
+						echo "<option value='" . $row['username'] . "'>" . htmlspecialchars($row['username']) . "</option>";
+					}
+				} else {
+					echo "<option value=''>No sellers available</option>";
+				}
+
+				$conn->close();
+				?>
+			</select>
 
             <button type="submit" name="submit">Add Car</button>
         </form>

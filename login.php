@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Redirect based on account type
         if ($user['status'] === 'active') {
             if ($user['account_type'] == 1) {
-                header("Location: admin_dashboard.php"); // Admin dashboard
+                header("Location: dashboard.php"); // Admin dashboard
             } elseif ($user['account_type'] == 2) {
                 header("Location: buyer_dashboard.php"); // Buyer dashboard
             } elseif ($user['account_type'] == 3) {

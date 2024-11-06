@@ -74,6 +74,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 2) {
         <!-- As buyer, roles are only to view current car listings and view their shortlist -->
         <a href="buyer_viewCar.php?action=manage_profiles">View Car Listings</a>
         <a href="buyer_viewShortlist.php?action=manage_accounts">View Your Shortlist</a>
+		<a href="buyer_viewReview.php?action=manage_accounts">Your Reviews</a>
     </div>
 
     <div class="logout">

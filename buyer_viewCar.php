@@ -18,7 +18,8 @@ if (isset($_POST['shortlist'])) {
 	$userId = $_SESSION['user_id'];
 	$username = $_SESSION['username'];
     $carId = $_POST['car_id'];
-    if ($AddCarToShortlistController->AddToShortlist($carId, $userId, $username)) {
+	$seller = $_POST['seller'];
+    if ($AddCarToShortlistController->AddToShortlist($carId, $userId, $username, $seller)) {
         $_SESSION['shortlist_message'] = "Car has been added to your shortlist.";
     }
 }
@@ -121,7 +122,9 @@ if (isset($_POST['search'])) {
     <div class="navbar">
         <a href="buyer_dashboard.php">Dashboard</a>
         <a href="buyer_viewCar.php">View Cars</a>
-        <a href="buyer_viewShortlist.php">View Shortlist</a> <!-- New link for viewing shortlist -->
+        <a href="buyer_viewShortlist.php">View Shortlist</a>
+		<a href="buyer_viewReview.php">Your Reviews</a>
+		<a href="loanCalculator.php">Loan Calculator</a>
     </div>
 
     <div class="container">
@@ -150,6 +153,7 @@ if (isset($_POST['search'])) {
                         <th>Description</th>
                         <th>Mileage</th>
                         <th>Color</th>
+						<th>Seller</th>
                         <th>Added On</th>
                         <th>Actions</th>
                     </tr>
@@ -164,11 +168,13 @@ if (isset($_POST['search'])) {
                             <td><?php echo htmlspecialchars($car['description']); ?></td>
                             <td><?php echo htmlspecialchars($car['mileage']); ?></td>
                             <td><?php echo htmlspecialchars($car['color']); ?></td>
+							<td><?php echo htmlspecialchars($car['seller']); ?></td>
                             <td><?php echo htmlspecialchars($car['created_at']); ?></td>
                             <td>
                                 <!-- Shortlist button -->
                                 <form method="post" style="display:inline;">
                                     <input type="hidden" name="car_id" value="<?php echo $car['id']; ?>">
+									<input type="hidden" name="seller" value="<?php echo $car['seller']; ?>">
                                     <button type="submit" name="shortlist" class="shortlist-button">Add To Shortlist</button>
                                 </form>
                             </td>

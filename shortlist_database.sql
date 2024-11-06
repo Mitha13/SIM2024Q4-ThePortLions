@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `shortlist` (
   `user_id` int NOT NULL,
   `username` varchar(100) NOT NULL,
   `car_id` int NOT NULL,
+  `seller` varchar(100) NOT NULL,
   `brand` varchar(100) NOT NULL,
   `model` varchar(100) NOT NULL,
   `price` decimal(10,2) NOT NULL,

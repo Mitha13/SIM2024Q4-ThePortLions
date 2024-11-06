@@ -106,13 +106,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p><strong>Description:</strong> <?php echo htmlspecialchars($car['description']); ?></p>
             <p><strong>Mileage:</strong> <?php echo htmlspecialchars($car['mileage']); ?></p>
             <p><strong>Color:</strong> <?php echo htmlspecialchars($car['color']); ?></p>
+			<p><strong>Seller:</strong> <?php echo htmlspecialchars($car['seller']); ?></p>
         </div>
 
         <form action="" method="POST">
             <button type="submit" class="confirm-button">Confirm</button>
         </form>
 
-        <form action="viewShortlist.php" method="GET" style="display:inline;">
+        <form action="buyer_viewShortlist.php" method="GET" style="display:inline;">
             <button type="submit" class="cancel-button">Cancel</button>
         </form>
     </div>

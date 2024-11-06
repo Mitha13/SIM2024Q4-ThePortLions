@@ -143,6 +143,7 @@ if (isset($_POST['search'])) {
                         <th>Description</th>
                         <th>Mileage</th>
                         <th>Color</th>
+						<th>Seller</th>
                         <th>Added On</th>
                         <th>Actions</th>
                     </tr>
@@ -157,6 +158,7 @@ if (isset($_POST['search'])) {
                             <td><?php echo htmlspecialchars($car['description']); ?></td>
                             <td><?php echo htmlspecialchars($car['mileage']); ?></td>
                             <td><?php echo htmlspecialchars($car['color']); ?></td>
+							<td><?php echo htmlspecialchars($car['seller']); ?></td>
                             <td><?php echo htmlspecialchars($car['created_at']); ?></td>
                             <td>
                                 <a href="updateCar.php?id=<?php echo $car['id']; ?>" class="update-button">Update</a>

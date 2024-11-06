@@ -15,53 +15,16 @@ class Shortlist {
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->pdo->exec("USE {$this->dbName}");
 
-            // Check if the database exists, if not, create it
-            // $this->createDatabaseIfNotExists();
         } catch (PDOException $e) {
             die("Database connection failed: " . $e->getMessage());
         }
     }
 
-    // Method to create the database if it does not exist
-    /* private function createDatabaseIfNotExists() {
-        try {
-            // Create the database if it doesn't exist
-            $this->pdo->exec("CREATE DATABASE IF NOT EXISTS {$this->dbName}");
-            // Switch to the new database
-            $this->pdo->exec("USE {$this->dbName}");
-            // Create the table if it doesn't exist
-            $this->createTableIfNotExists();
-        } catch (PDOException $e) {
-            echo "Error creating database: " . $e->getMessage();
-        }
-    }
-
-    // Method to create the shortlist table if it does not exist
-    private function createTableIfNotExists() {
-        $query = "CREATE TABLE IF NOT EXISTS shortlist (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-			user_id INT NOT NULL,
-			username VARCHAR(100) NOT NULL,
-            car_id INT NOT NULL,
-            brand VARCHAR(100) NOT NULL,
-            model VARCHAR(100) NOT NULL,
-            price DECIMAL(10, 2) NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
-        )";
-
-        try {
-            $this->pdo->exec($query);
-        } catch (PDOException $e) {
-            echo "Error creating table: " . $e->getMessage();
-        }
-    } */
-
     // Method to add a car to the shortlist
-    public function addToShortlist($userId, $username, $carId, $brand, $model, $price) {
+    public function addToShortlist($userId, $username, $carId, $seller, $brand, $model, $price) {
         try {
-            $query = "INSERT INTO shortlist (user_id, username, car_id, brand, model, price)
-                      VALUES (:user_id, :username, :car_id, :brand, :model, :price)";
+            $query = "INSERT INTO shortlist (user_id, username, car_id, brand, model, price, seller)
+                      VALUES (:user_id, :username, :car_id, :brand, :model, :price, :seller)";
             $stmt = $this->pdo->prepare($query);
 
             // Bind parameters
@@ -71,6 +34,7 @@ class Shortlist {
             $stmt->bindParam(':brand', $brand);
             $stmt->bindParam(':model', $model);
             $stmt->bindParam(':price', $price);
+			$stmt->bindParam(':seller', $seller);
 
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -92,6 +56,32 @@ class Shortlist {
         }
     }
 	
+	// Method to fetch shortlisted cars by user only
+    public function getShortlistedCarsByUser($username) {
+        try {
+            $query = "SELECT * FROM shortlist WHERE username = '". $username. "'";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error fetching shortlisted cars: " . $e->getMessage();
+            return [];
+        }
+    }
+	
+	// Method to fetch shortlisted cars by seller only
+    public function getShortlistedCarsBySeller($seller) {
+        try {
+            $query = "SELECT * FROM shortlist WHERE seller = '". $seller. "'";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error fetching shortlisted cars: " . $e->getMessage();
+            return [];
+        }
+    }
+	
 	// Method to remove a car from the shortlist
     public function deleteShortlistedCar($carId) {
         try {
@@ -102,6 +92,21 @@ class Shortlist {
         } catch (PDOException $e) {
             echo "Error removing car from shortlist: " . $e->getMessage();
             return false;
+        }
+    }
+	
+	// Method to search shortlisted cars
+	public function searchShortlistedCars($username, $searchTerm) {
+        try {
+            $query = "SELECT * FROM shortlist WHERE username = '". $username. "' AND brand LIKE :searchTerm";
+            $stmt = $this->pdo->prepare($query);
+            $likeTerm = "%" . $searchTerm . "%"; // Prepare the search term for LIKE clause
+            $stmt->bindParam(':searchTerm', $likeTerm);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error searching cars: " . $e->getMessage();
+            return [];
         }
     }
 }

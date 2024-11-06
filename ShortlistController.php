@@ -12,12 +12,12 @@ class AddToShortlist {
         $this->car = new Car();
     }
 
-    public function addToShortlist($carId, $userId, $username) {
+    public function addToShortlist($carId, $userId, $username, $seller) {
         // Fetch car details based on car ID
         $carDetails = $this->car->fetchCarById($carId);
         if ($carDetails) {
             // Add to shortlist
-            return $this->shortlist->addToShortlist($userId, $username, $carId, $carDetails['brand'], $carDetails['model'], $carDetails['price']);
+            return $this->shortlist->addToShortlist($userId, $username, $carId, $seller, $carDetails['brand'], $carDetails['model'], $carDetails['price']);
         }
         return false; // Car not found
     }
@@ -34,6 +34,29 @@ class GetShortlistedCars {
         return $this->shortlist->getShortlistedCars();
     }
 }
+class GetShortlistedCarsByUser {
+	private $shortlist;
+
+    public function __construct() {
+        $this->shortlist = new Shortlist();
+    }
+
+    public function getShortlistedCarsByUser($username) {
+        return $this->shortlist->getShortlistedCarsByUser($username);
+    }
+}
+
+class GetShortlistedCarsBySeller {
+	private $shortlist;
+
+    public function __construct() {
+        $this->shortlist = new Shortlist();
+    }
+
+    public function getShortlistedCarsBySeller($seller) {
+        return $this->shortlist->getShortlistedCarsBySeller($seller);
+    }
+}
 
 class RemoveFromShortlist {
 	private $shortlist;
@@ -44,6 +67,18 @@ class RemoveFromShortlist {
 
     public function removeFromShortlist($carId) {
         return $this->shortlist->deleteShortlistedCar($carId);
+    }
+}
+
+class SearchShortlistedCar {
+	private $shortlist;
+
+    public function __construct() {
+        $this->shortlist = new Shortlist();
+    }
+
+    public function searchShortlistedCar($username, $searchTerm) {
+        return $this->shortlist->searchShortlistedCars($username, $searchTerm);
     }
 }
 
