@@ -38,41 +38,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="./styles/update_user.css">
 <head>
     <title>Update User Account</title>
 </head>
 <body>
-    <h1>Update User Account</h1>
-    <form method="POST" action="">
-        <input type="hidden" name="id" value="<?php echo $user['id']; ?>" required>
 
+
+    <!-- UPDATED UPDATE USER -->
+    <div class="form-container">
+    <h2>Update User</h2>
+    <form method="POST" action="">
+        <div class="form-group">
+        <input type="hidden" name="id" value="<?php echo $user['id']; ?>" required>
+        </div>
+        <div class="form-group">
         <label for="account_type">Account Type:</label>
         <input type="text" id="account_type" name="account_type" value="<?php echo $user['account_type']; ?>" required><br>
-
+        </div>
+        <div class="form-group">
         <label for="profile_id">Profile ID:</label>
         <input type="text" id="profile_id" name="profile_id" value="<?php echo $user['profile_id']; ?>" required><br>
-
+        </div>
+        <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" value="<?php echo $user['username']; ?>" required><br>
-
+        </div>
+        <div class="form-group">
         <label for="phone_number">Phone Number:</label>
         <input type="text" id="phone_number" name="phone_number" value="<?php echo $user['phone_number']; ?>" required><br>
-
+        </div>
+        <div class="form-group">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" value="<?php echo $user['email']; ?>" required><br>
-
+        </div>
+        <div class="form-group">
         <label for="dob">Date of Birth:</label>
         <input type="date" id="dob" name="dob" value="<?php echo $user['dob']; ?>" ><br>
-
+        </div>
+        <div class="form-group">
         <label for="status">Status:</label>
-        <select id="status" name="status" required>
+            <select id="status" name="status" required>
             <option value="active" <?php if ($user['status'] == 'active') echo 'selected'; ?>>Active</option>
             <option value="suspend" <?php if ($user['status'] == 'suspend') echo 'selected'; ?>>Suspend</option>
-        </select><br>
-
-        <button type="submit">Update User</button>
+            </select><br>
 		
-		<p>Back to dashboard <a href="admin_dashboard.php">Home</a></p>
+        </div>
+        <button type="submit" class="submit-btn" value="Update User">Submit</button>
+        <p>Back to dashboard <a href="admin_dashboard.php">Home</a></p>
     </form>
+
 </body>
 </html>

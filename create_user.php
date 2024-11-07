@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<form method="POST" action="create_user.php">
+<!-- <form method="POST" action="create_user.php">
     <select name="account_type">
         <option value="1">Admin</option>
         <option value="2">Buyer</option>
@@ -44,4 +44,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <input type="submit" value="Create User">
 
     <p>Back to dashboard <a href="admin_dashboard.php">Home</a></p>
-</form>
+</form> -->
+
+<!-- UPDATED CREATE USER FORM -->
+<link rel="stylesheet" href="./styles/create_user.css">
+<div class="form-container">
+    <h2>Create User</h2>
+    <form method="POST" action="create_user.php">
+        <div class="form-group">
+            <select class='userselect' name="account_type">
+                <option value="1">Admin</option>
+                <option value="2">Buyer</option>
+                <option value="3">Seller</option>
+                <option value="4">Used Car Agent</option>
+            </select>
+        </div>
+        <div class="form-group">
+        <label class='labels' for="profile_id">Profile ID:</label>
+        <input type="text" name="profile_id" placeholder="Profile ID" required>
+        </div>
+        <div class="form-group">
+        <label class='labels' for="username">Username:</label>
+        <input type="text" name="username" placeholder="Username" required>
+        </div>
+        <div class="form-group">
+        <label class='labels' for="phone_number">Phone Number:</label>
+        <input type="text" name="phone_number" placeholder="Phone Number">
+        </div>
+        <div class="form-group">
+        <label class='labels' for="email">Email:</label>
+        <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+        <label class='labels' for="password">Password:</label>
+        <input type="password" name="password" placeholder="Password" required>
+        </div>
+        <div class="form-group">
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
+        </div>
+        <button type="submit" class="submit-btn" value="Create User">Submit</button>
+        <p>Back to dashboard <a href="admin_dashboard.php">Home</a></p>
+    </form>
+</div>
