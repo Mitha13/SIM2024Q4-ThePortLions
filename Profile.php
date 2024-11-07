@@ -13,6 +13,7 @@ $getAllController = new GetAllUserProfilesController();
 $updateController = new UpdateUserProfileController();
 $suspendController = new SuspendUserProfileController();
 $searchController = new SearchUserProfilesController();
+$activateController = new ActivateUserProfileController();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Handle form submissions based on the action requested
@@ -37,6 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Suspend a profile
                 $id = $_POST['id'];
                 $suspendController->execute($id);
+                break;
+				
+			case 'activate':
+                // Activate the profile
+                $id = $_POST['id'];
+                $activateController->execute($id);
                 break;
 
             case 'search':
@@ -135,32 +142,6 @@ $profiles = isset($profiles) ? $profiles : $getAllController->execute();
         <button type="submit">Create Profile</button>
     </form>
 
-    <!-- Update profile form -->
-    <h2>Update Profile</h2>
-    <form method="POST" action="Profile.php">
-        <input type="hidden" name="action" value="update">
-        <label for="id">Profile ID:</label>
-        <input type="text" id="id" name="id" required>
-
-        <label for="UserRole">User Role:</label>
-        <input type="text" id="UserRole" name="UserRole" required>
-
-        <label for="Description">Description:</label>
-        <textarea id="Description" name="Description" required></textarea>
-
-        <button type="submit">Update Profile</button>
-    </form>
-
-    <!-- Suspend profile form -->
-    <h2>Suspend Profile</h2>
-    <form method="POST" action="Profile.php">
-        <input type="hidden" name="action" value="suspend">
-        <label for="id">Profile ID:</label>
-        <input type="text" id="id" name="id" required>
-
-        <button type="submit">Suspend Profile</button>
-    </form>
-
     <!-- Search profiles form -->
     <h2>Search Profiles</h2>
     <form method="POST" action="Profile.php">
@@ -178,6 +159,7 @@ $profiles = isset($profiles) ? $profiles : $getAllController->execute();
             <th>Profile ID</th>
             <th>User Role</th>
             <th>Description</th>
+			<th>Status</th>
             <th>Actions</th>
         </tr>
         <?php foreach ($profiles as $profile): ?>
@@ -185,20 +167,33 @@ $profiles = isset($profiles) ? $profiles : $getAllController->execute();
             <td><?php echo htmlspecialchars($profile['id']); ?></td>
             <td><?php echo htmlspecialchars($profile['UserRole']); ?></td>
             <td><?php echo htmlspecialchars($profile['Description']); ?></td>
+			<td><?php echo htmlspecialchars($profile['status']); ?></td> <!-- assuming you have a 'status' field -->	
             <td>
-                <form method="POST" action="Profile.php" style="display:inline;">
-                    <input type="hidden" name="action" value="update">
-                    <input type="hidden" name="id" value="<?php echo $profile['id']; ?>">
-                    <input type="text" name="UserRole" value="<?php echo htmlspecialchars($profile['UserRole']); ?>" required>
-                    <textarea name="Description" required><?php echo htmlspecialchars($profile['Description']); ?></textarea>
-                    <button type="submit">Update</button>
-                </form>
-                <form method="POST" action="Profile.php" style="display:inline;">
-                    <input type="hidden" name="action" value="suspend">
-                    <input type="hidden" name="id" value="<?php echo $profile['id']; ?>">
-                    <button type="submit">Suspend</button>
-                </form>
-            </td>
+            <!-- Update form -->
+            <form method="POST" action="Profile.php" style="display:inline;">
+                <input type="hidden" name="action" value="update">
+                <input type="hidden" name="id" value="<?php echo $profile['id']; ?>">
+                <input type="text" name="UserRole" value="<?php echo htmlspecialchars($profile['UserRole']); ?>" required>
+                <textarea name="Description" required><?php echo htmlspecialchars($profile['Description']); ?></textarea>
+                <button type="submit">Update</button>
+            </form>
+
+            <!-- Suspend form -->
+            <form method="POST" action="Profile.php" style="display:inline;">
+                <input type="hidden" name="action" value="suspend">
+                <input type="hidden" name="id" value="<?php echo $profile['id']; ?>">
+                <button type="submit">Suspend</button>
+            </form>
+
+            <!-- Activate form (only shows if status is suspended) -->
+            <?php if ($profile['status'] === 'suspended'): ?>
+            <form method="POST" action="Profile.php" style="display:inline;">
+                <input type="hidden" name="action" value="activate">
+                <input type="hidden" name="id" value="<?php echo $profile['id']; ?>">
+                <button type="submit" style="background-color: #007bff;">Activate</button>
+            </form>
+            <?php endif; ?>
+        </td>
         </tr>
         <?php endforeach; ?>
     </table>
