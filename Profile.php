@@ -142,6 +142,7 @@ $profiles = isset($profiles) ? $profiles : $getAllController->execute();
         <button type="submit">Create Profile</button>
     </form>
 
+
     <!-- Search profiles form -->
     <h2>Search Profiles</h2>
     <form method="POST" action="Profile.php">
