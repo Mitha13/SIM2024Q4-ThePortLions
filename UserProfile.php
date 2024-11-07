@@ -39,6 +39,15 @@ class SuspendUserProfileEntity {
     }
 }
 
+class ActivateUserProfileEntity {
+    public static function activate($pdo, $id) {
+        $stmt = $pdo->prepare("UPDATE UserProfile SET status = 'active' WHERE id = ?");
+        $stmt->execute([$id]);
+        return "User Profile activated!";
+    }
+}
+
+
 class SearchUserProfilesEntity {
     public static function searchByRole($pdo, $userRole) {
         $stmt = $pdo->prepare("SELECT * FROM UserProfile WHERE UserRole LIKE ?");
