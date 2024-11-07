@@ -148,8 +148,8 @@ if (isset($_GET['search']) && isset($_GET['search_field'])) {
         <tr>
             <th>Username</th>
             <th>Email</th>
-            <th>Account Type</th>
             <th>Profile ID</th>
+            <th>Account ID</th>
             <th>Phone Number</th>
             <th>DOB</th>
             <th>Status</th>
