@@ -37,6 +37,17 @@ class SuspendUserProfileController {
     }
 }
 
+class ActivateUserProfileController {
+    public function execute($id) {
+        // Assuming you have a global $pdo or pass it as an argument
+        global $pdo;
+        $result = ActivateUserProfileEntity::activate($pdo, $id);
+        return $result;
+    }
+}
+
+
+
 class SearchUserProfilesController {
     public function execute($userRole) {
         global $pdo;
