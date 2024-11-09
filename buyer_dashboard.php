@@ -6,6 +6,35 @@ include 'UserController.php';
 if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 2) {
     die("Access denied.");
 }
+
+// Fetch buyer's own account information
+$controller = new FetchUser();
+$user = $controller->getUserById($_SESSION['user_id']);
+
+// Handle Update Form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get form data
+    $updatedUsername = $_POST['username'];
+    $updatedPhoneNumber = $_POST['phone_number'];
+    $updatedEmail = $_POST['email'];
+    $updatedDob = $_POST['dob'];
+
+    // Update the user details
+    $updateController = new UpdateUser();
+    $updateMessage = $updateController->update(
+        $_SESSION['user_id'],
+        $_SESSION['account_type'],
+        $_SESSION['profile_id'],
+        $updatedUsername,
+        $updatedPhoneNumber,
+        $updatedEmail,
+        $updatedDob,
+        $user['status']
+    );
+
+    // Refresh the user data after update
+    $user = $controller->getUserById($_SESSION['user_id']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -60,21 +89,67 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 2) {
         .logout a:hover {
             background-color: #d32f2f;
         }
+        .update-form {
+            margin-top: 30px;
+        }
+        .update-form input {
+            padding: 8px;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .update-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+        }
+        .update-form button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
 
 <div class="dashboard-container">
     <h1>Buyer Dashboard</h1>
-	<?php
-		echo "<p><center>Welcome Buyer, ". $_SESSION['username']. " </center></p>";
-	?>
+    <p><center>Welcome Buyer, <?php echo htmlspecialchars($user['username']); ?> </center></p>
+
+    <h2>Your Account Details</h2>
+    <p>Username: <?php echo htmlspecialchars($user['username']); ?></p>
+    <p>Email: <?php echo htmlspecialchars($user['email']); ?></p>
+    <p>Phone Number: <?php echo htmlspecialchars($user['phone_number']); ?></p>
+    <p>Date of Birth: <?php echo htmlspecialchars($user['dob']); ?></p>
+    <p>Status: <?php echo htmlspecialchars($user['status']); ?></p>
+
+    <div class="form-container">
+        <h3>Update Your Account Information</h3>
+        <form method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" id="phone_number" name="phone_number" value="<?php echo htmlspecialchars($user['phone_number']); ?>" required>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" value="<?php echo htmlspecialchars($user['dob']); ?>" required>
+
+            <button type="submit">Update</button>
+        </form>
+        <?php
+        if (isset($updateMessage)) {
+            echo "<p>$updateMessage</p>";
+        }
+        ?>
+    </div>
 
     <div class="action-buttons">
-        <!-- As buyer, roles are only to view current car listings and view their shortlist -->
-        <a href="buyer_viewCar.php?action=manage_profiles">View Car Listings</a>
-        <a href="buyer_viewShortlist.php?action=manage_accounts">View Your Shortlist</a>
-		<a href="buyer_viewReview.php?action=manage_accounts">Your Reviews</a>
+        <a href="view_seller_inventory.php">View Seller Inventory</a>
     </div>
 
     <div class="logout">
