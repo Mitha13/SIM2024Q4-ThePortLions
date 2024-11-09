@@ -2,9 +2,38 @@
 session_start();
 include 'UserController.php';
 
-// Ensure used car agent type is logged in
+// Ensure Used Car Agent type is logged in
 if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 4) {
     die("Access denied.");
+}
+
+// Fetch agent's own account information
+$controller = new FetchUser();
+$user = $controller->getUserById($_SESSION['user_id']);
+
+// Handle profile update
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get form data
+    $updatedUsername = $_POST['username'];
+    $updatedPhoneNumber = $_POST['phone_number'];
+    $updatedEmail = $_POST['email'];
+    $updatedDob = $_POST['dob'];
+
+    // Update the user details
+    $updateController = new UpdateUser();
+    $updateMessage = $updateController->update(
+        $_SESSION['user_id'],
+        $_SESSION['account_type'],
+        $_SESSION['profile_id'],
+        $updatedUsername,
+        $updatedPhoneNumber,
+        $updatedEmail,
+        $updatedDob,
+        $user['status']
+    );
+
+    // Refresh the user data after update
+    $user = $controller->getUserById($_SESSION['user_id']);
 }
 ?>
 
@@ -60,18 +89,59 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 4) {
         .logout a:hover {
             background-color: #d32f2f;
         }
+        .update-form {
+            margin-top: 30px;
+        }
+        .update-form input {
+            padding: 8px;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .update-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+        }
+        .update-form button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
 
 <div class="dashboard-container">
     <h1>Used Car Agent Dashboard</h1>
-	<?php
-		echo "<p><center>Welcome Used Car Agent, ". $_SESSION['username']. " </center></p>";
-	?>
+    <p><center>Welcome Used Car Agent, <?php echo htmlspecialchars($user['username']); ?> </center></p>
+
+    <h2>Your Account Details</h2>
+    <p>Username: <?php echo htmlspecialchars($user['username']); ?></p>
+    <p>Email: <?php echo htmlspecialchars($user['email']); ?></p>
+    <p>Phone Number: <?php echo htmlspecialchars($user['phone_number']); ?></p>
+    <p>Date of Birth: <?php echo htmlspecialchars($user['dob']); ?></p>
+    <p>Status: <?php echo htmlspecialchars($user['status']); ?></p>
+
+    <h3>Update Your Account Information</h3>
+    <form class="update-form" method="POST">
+		<label for="username">username:</label>
+        <input type="username" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
+		
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" value="<?php echo htmlspecialchars($user['phone_number']); ?>" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" value="<?php echo htmlspecialchars($user['dob']); ?>" required>
+
+        <button type="submit">Update</button>
+    </form>
 
     <div class="action-buttons">
-        <!-- As Used car agent, roles are only allowed to add new car and view current car listing -->
         <a href="addCar.php?action=manage_accounts">Add New Car</a>
         <a href="agent_viewCar.php?action=manage_profiles">View Car Listings</a>
     </div>
