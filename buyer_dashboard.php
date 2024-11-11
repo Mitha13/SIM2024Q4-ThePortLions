@@ -146,10 +146,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<p>$updateMessage</p>";
         }
         ?>
-    </div>
+    </div><br>
 
     <div class="action-buttons">
-        <a href="view_seller_inventory.php">View Seller Inventory</a>
+        <a href="buyer_viewCar.php">View Car Listings</a>
+		<a href="buyer_viewShortlist.php">View your Shortlist</a>
+		<a href="buyer_viewReview.php">Your Reviews</a>
     </div>
 
     <div class="logout">
