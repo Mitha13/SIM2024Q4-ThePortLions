@@ -19,35 +19,34 @@ class Review {
         }
     }
 
-    public function save($userId, $username, $agent, $carId, $comment, $rating) {
+    public function save($userId, $username, $agent, $comment, $rating) {
 		try {
-			$query = "INSERT INTO buyerreviews (user_id, username, agent, car_id, comment, rating) VALUES (:user_id, :username, :agent, :car_id, :comment, :rating)";
+			$query = "INSERT INTO sellerreviews (user_id, username, agent, comment, rating) VALUES (:user_id, :username, :agent, :comment, :rating)";
 			$stmt = $this->pdo->prepare($query);
 			
 			// Bind parameters
 			$stmt->bindParam(':user_id', $userId);
 			$stmt->bindParam(':username', $username);
 			$stmt->bindParam(':agent', $agent);
-			$stmt->bindParam(':car_id', $carId);
 			$stmt->bindParam(':comment', $comment);
 			$stmt->bindParam(':rating', $rating);
 			
 			return $stmt->execute();
         } catch (PDOException $e) {
-            echo "Error adding your reviews to db: " . $e->getMessage();
+            echo "Error adding to database: " . $e->getMessage();
             return false;
         }
     }
 	
 	// Method to fetch all reviews
-    public function getReviews($username) {
+    public function getSellerReviews($username) {
         try {
-            $query = "SELECT * FROM buyerreviews WHERE username = '". $username . "'";
+            $query = "SELECT * FROM sellerreviews WHERE username = '". $username . "'";
             $stmt = $this->pdo->prepare($query);		
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo "Error fetching shortlisted cars: " . $e->getMessage();
+            echo "Error fetching your reviews: " . $e->getMessage();
             return [];
         }
     }

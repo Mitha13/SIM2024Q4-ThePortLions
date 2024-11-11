@@ -18,31 +18,24 @@ class Review {
             die("Database connection failed: " . $e->getMessage());
         }
     }
-
-    public function save($userId, $username, $agent, $carId, $comment, $rating) {
-		try {
-			$query = "INSERT INTO buyerreviews (user_id, username, agent, car_id, comment, rating) VALUES (:user_id, :username, :agent, :car_id, :comment, :rating)";
-			$stmt = $this->pdo->prepare($query);
-			
-			// Bind parameters
-			$stmt->bindParam(':user_id', $userId);
-			$stmt->bindParam(':username', $username);
-			$stmt->bindParam(':agent', $agent);
-			$stmt->bindParam(':car_id', $carId);
-			$stmt->bindParam(':comment', $comment);
-			$stmt->bindParam(':rating', $rating);
-			
-			return $stmt->execute();
+	
+	// Method to fetch buyer reviews
+    public function getBuyerReviews($username) {
+        try {
+            $query = "SELECT * FROM buyerreviews WHERE agent = 'agent'";
+            $stmt = $this->pdo->prepare($query);		
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo "Error adding your reviews to db: " . $e->getMessage();
-            return false;
+            echo "Error fetching shortlisted cars: " . $e->getMessage();
+            return [];
         }
     }
 	
-	// Method to fetch all reviews
-    public function getReviews($username) {
+	// Method to fetch seller reviews
+    public function getSellerReviews($username) {
         try {
-            $query = "SELECT * FROM buyerreviews WHERE username = '". $username . "'";
+            $query = "SELECT * FROM sellerreviews WHERE agent = 'agent'";
             $stmt = $this->pdo->prepare($query);		
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -113,8 +113,9 @@ if (isset($_POST['search'])) {
     <!-- Navigation bar with links -->
     <div class="navbar">
         <a href="agent_dashboard.php">Dashboard</a>
-        <a href="addCar.php">Add New Car</a>
-        <a href="agent_viewCar.php">View Car Listings</a>
+        <a href="addCar.php?action=manage_accounts">Add New Car</a>
+        <a href="agent_viewCar.php?action=manage_profiles">View Car Listings</a>
+		<a href="agent_viewReview.php?action=manage_profiles">See your Reviews</a>
     </div>
 
     <div class="container">

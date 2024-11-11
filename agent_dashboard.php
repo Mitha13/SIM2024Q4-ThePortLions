@@ -144,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="action-buttons">
         <a href="addCar.php?action=manage_accounts">Add New Car</a>
         <a href="agent_viewCar.php?action=manage_profiles">View Car Listings</a>
+		<a href="agent_viewReview.php?action=manage_profiles">See your Reviews</a>
     </div>
 
     <div class="logout">
