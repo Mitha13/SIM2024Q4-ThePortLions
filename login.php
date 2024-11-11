@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['account_type'] = $user['account_type'];
+		$_SESSION['profile_id'] = $user['profile_id'];
 
         // Redirect based on account type
         if ($user['status'] === 'active') {

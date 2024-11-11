@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 4) {
 // Fetch agent's own account information
 $controller = new FetchUser();
 $user = $controller->getUserById($_SESSION['user_id']);
+$prof_id = $_SESSION['profile_id'];
 
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

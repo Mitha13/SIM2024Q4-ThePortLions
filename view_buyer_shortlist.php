@@ -92,7 +92,8 @@ $shortlistedCars = $GetShortlistedCarsBySellerController->getShortlistedCarsBySe
     <!-- Navigation bar with links -->
     <div class="navbar">
         <a href="seller_dashboard.php">Dashboard</a>
-        <a href="view_buyer_shortlist.php">View Buyer Interests</a>
+        <a href="view_buyer_shortlist.php">View Buyer Interest</a>
+		<a href="seller_viewReview.php">Your Reviews</a>
     </div>
 
     <div class="container">
