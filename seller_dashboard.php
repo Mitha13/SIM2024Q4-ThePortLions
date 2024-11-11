@@ -7,6 +7,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['account_type'] != 3) {
     die("Access denied.");
 }
 
+if (!isset($_SESSION['profile_id'])) {
+    die("Profile ID is not set. Please log in again.");
+}
+$prof_id = $_SESSION['profile_id'];
+
 // Fetch seller's own account information
 $controller = new FetchUser();
 $user = $controller->getUserById($_SESSION['user_id']);
