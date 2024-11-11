@@ -17,11 +17,12 @@ $carId = $_SESSION['car_id'];
 
 // Handle form submission for review
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$agent = $_POST['agent'];
     $comment = $_POST['comment'];
     $rating = $_POST['rating'];
 
     // Save review
-    if ($reviewController->saveReview($userId, $username, $carId, $comment, $rating)) {
+    if ($reviewController->saveReview($userId, $username, $agent, $carId, $comment, $rating)) {
         // Redirect to a confirmation page or display a success message
         $_SESSION['review_message'] = "Thank you for your review!";
         header("Location: buyer_dashboard.php");
@@ -95,6 +96,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>Leave a Review</h1>
 
         <form method="POST">
+			<label for="agent">Select Agent:</label>
+			<select name="agent" required>
+				<option value="">Select an Agent</option>
+				<?php
+					// Fetch agents from the database and populate the dropdown
+					$conn = new mysqli('localhost', 'root', '', 'user_management'); // Replace with actual DB credentials
+					if ($conn->connect_error) {
+						die("Connection failed: " . $conn->connect_error);
+					}
+
+					// Query to get all agents from the user_management table
+					$sql = "SELECT username FROM users WHERE account_type = 4";
+					$result = $conn->query($sql);
+
+					// Populate the dropdown with the agents
+					if ($result->num_rows > 0) {
+						while ($row = $result->fetch_assoc()) {
+							echo "<option value='" . $row['username'] . "'>" . htmlspecialchars($row['username']) . "</option>";
+						}
+					} else {
+						echo "<option value=''>No agents available</option>";
+					}
+
+					$conn->close();
+				?>
+			</select><br><br>
             <textarea name="comment" placeholder="Write your comment here..." required></textarea>
             <select name="rating" required>
                 <option value="">Rate the car</option>
