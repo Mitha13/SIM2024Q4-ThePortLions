@@ -42,7 +42,13 @@ class LoginUser {
     public function login($username, $password) {
         global $pdo;
         $userData = User::findByUsername($pdo, $username);
-        return ($userData && password_verify($password, $userData['password'])) ? $userData : false;
+        if ($userData && password_verify($password, $userData['password'])) {
+            $_SESSION['user_id'] = $userData['id'];
+            $_SESSION['account_type'] = $userData['account_type'];
+            $_SESSION['profile_id'] = $userData['profile_id']; // Set profile_id here
+            return $userData;
+        }
+        return false;
     }
 }
 
